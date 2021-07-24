@@ -26,7 +26,38 @@ import (
 	"strings"
 )
 
-const doubleQuoteSpecialChars = "\\\n\r\"!$`"
+// Make sure characters listed here are correctly handled or unescaped by systemd. To check this simple systemd service can be used:
+//
+// [Unit]
+// Description=Escaping Test
+// [Service]
+// EnvironmentFile=/tmp/vars.env
+// Type=oneshot
+// ExecStart=env
+// RemainAfterExit=yes
+//
+// Running this service will produce output and all all vars defined in .env file should be printed as defined
+//
+// vars.env:
+// BACKSLASH="\\"
+// EXCLAMATION="!"
+// DOLLAR_SIGN="$"
+// NEWLINE="\n"
+// CARRIAGE_RETURN="\r"
+// DOUBLE_QUOTE="\""
+//
+// result:
+// BACKSLASH=\\
+// EXCLAMATION=!
+// DOLLAR_SIGN=$
+// NEWLINE=\n
+// CARRIAGE_RETURN=\r
+// DOUBLE_QUOTE="
+//
+// as you see only backslash, newline, carriage return and double quote are mandatory
+// to be escaped, so be it.
+
+const doubleQuoteSpecialChars = "\\\n\r\""
 
 // Load will read your env file(s) and load them into ENV for this process.
 //

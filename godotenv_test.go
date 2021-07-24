@@ -442,7 +442,7 @@ func TestWrite(t *testing.T) {
 	//but single quotes are left alone
 	writeAndCompare(`key=va'lu'e`, `key="va'lu'e"`)
 	// newlines, backslashes, and some other special chars are escaped
-	writeAndCompare(`foo="\n\r\\r!"`, `foo="\n\r\\r\!"`)
+	writeAndCompare(`foo="\n\r\\r$!"`, `foo="\n\r\\r$!"`)
 	// lines should be sorted
 	writeAndCompare("foo=bar\nbaz=buzz", "baz=\"buzz\"\nfoo=\"bar\"")
 	// integers should not be quoted
